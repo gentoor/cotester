@@ -22,15 +22,15 @@ test伴侣 --- 数据驱动测试<br>
 2.4） 参数为Collection及Map时，首行写参数名；此时需要创建引用sheet页， 如上例就是创建名称为$expected的sheet页；<br>
       在本列下面的数据中要写明数据范围为$expected页中的哪些行， 支持格式为1-3, 1-, -3, 2等<br>
 2.5） 如果将excel放在testcase同目录，需要注意在maven下面增加以下配置<br>
-    &ltbuild&gt<br>
-        &lttestResources&gt<br>
-            &lttestResource&gt<br>
-                &ltdirectory&gtsrc/test/java&lt/directory&gt<br>
-                &ltincludes&gt<br>
-                    &ltinclude&gt**/*.xls&lt/include&gt<br>
-                    &ltinclude&gt**/*.xlsx&lt/include&gt<br>
-                &lt/includes&gt<br>
-            &lt/testResource&gt<br>
-        &lt/testResources&gt<br>
-      &lt/build&gt<br>
+    &lt;build&gt;<br>
+        &lt;testResources&gt;<br>
+            &lt;testResource&gt;<br>
+                &lt;directory&gt;src/test/java&lt;/directory&gt;<br>
+                &lt;includes&gt;<br>
+                    &lt;include&gt;**/*.xls&lt;/include&gt;<br>
+                    &lt;include&gt;**/*.xlsx&lt;/include&gt;<br>
+                &lt;/includes&gt;<br>
+            &lt;/testResource&gt;<br>
+        &lt;/testResources&gt;<br>
+      &lt;/build&gt;<br>
 3. 数据填写到excel中后，就可以运行testc了<br>
