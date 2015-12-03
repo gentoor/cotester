@@ -1,4 +1,4 @@
-package org.cn.gentoor.common.cotester.util;
+package com.github.gentoor.cotester.util;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

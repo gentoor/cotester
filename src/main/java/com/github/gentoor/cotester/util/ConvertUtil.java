@@ -1,4 +1,4 @@
-package org.cn.gentoor.common.cotester.util;
+package com.github.gentoor.cotester.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -50,7 +50,7 @@ public class ConvertUtil {
     }
 
     private static List<Object> cvt2MapValues(ParaObject paraInfo, String[][] refDatra, IExcelDataUtil excelDataUtil) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException {
-        List<Object> values = new ArrayList<>();
+        List<Object> values = new ArrayList();
         Class valueClass = paraInfo.getValueClass();
 
         if(TypeUtil.isSimpleClass(valueClass)) {
@@ -62,7 +62,7 @@ public class ConvertUtil {
         return values;
     }
     private static List<Object> cvt2MapKeys(ParaObject paraInfo, String[][] refData, IExcelDataUtil excelDataUtil) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, NoSuchFieldException {
-        List<Object> keys = new ArrayList<>();
+        List<Object> keys = new ArrayList();
         Class keyClass = paraInfo.getKeyClass();
         if(TypeUtil.isSimpleClass(keyClass)) {
             cvt2SimpleCollection(keyClass, refData, keys, false);

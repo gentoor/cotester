@@ -1,11 +1,11 @@
-package org.cn.gentoor.common.cotester;
+package com.github.gentoor.cotester;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.cn.gentoor.common.cotester.util.ConvertUtil;
-import org.cn.gentoor.common.cotester.util.ExcelDataUtil;
-import org.cn.gentoor.common.cotester.util.HeaderAnalyzer;
-import org.cn.gentoor.common.cotester.util.IExcelDataUtil;
-import org.cn.gentoor.common.cotester.util.ParaObject;
+import com.github.gentoor.cotester.util.ConvertUtil;
+import com.github.gentoor.cotester.util.ExcelDataUtil;
+import com.github.gentoor.cotester.util.HeaderAnalyzer;
+import com.github.gentoor.cotester.util.IExcelDataUtil;
+import com.github.gentoor.cotester.util.ParaObject;
 import org.testng.annotations.DataProvider;
 
 import java.io.IOException;

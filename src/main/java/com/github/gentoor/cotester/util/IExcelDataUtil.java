@@ -1,4 +1,4 @@
-package org.cn.gentoor.common.cotester.util;
+package com.github.gentoor.cotester.util;
 
 /**
  * Created by gentoor on 2015/11/21.

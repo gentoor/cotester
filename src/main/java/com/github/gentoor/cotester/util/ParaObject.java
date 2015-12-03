@@ -1,4 +1,4 @@
-package org.cn.gentoor.common.cotester.util;
+package com.github.gentoor.cotester.util;
 
 import java.util.ArrayList;
 import java.util.List;

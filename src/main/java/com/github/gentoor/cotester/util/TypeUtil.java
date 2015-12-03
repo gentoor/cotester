@@ -1,4 +1,4 @@
-package org.cn.gentoor.common.cotester.util;
+package com.github.gentoor.cotester.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -123,9 +123,9 @@ public class TypeUtil {
         if(!clazz.isInterface())    return clazz.newInstance();
 
         String clazzName = clazz.getName();
-        if("java.util.Collection".equals(clazzName) || "java.util.List".equals(clazzName))  return new ArrayList<>();
-        if(Set.class.isAssignableFrom(clazz))   return new TreeSet<>();
-        if(Queue.class.isAssignableFrom(clazz)) return new ConcurrentLinkedDeque<>();
+        if("java.util.Collection".equals(clazzName) || "java.util.List".equals(clazzName))  return new ArrayList();
+        if(Set.class.isAssignableFrom(clazz))   return new TreeSet();
+        if(Queue.class.isAssignableFrom(clazz)) return new ConcurrentLinkedDeque();
         if(Map.class.isAssignableFrom(clazz))   return new ConcurrentSkipListMap();
 
         return null;
