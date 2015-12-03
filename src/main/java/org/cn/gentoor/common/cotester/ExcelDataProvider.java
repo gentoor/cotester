@@ -16,7 +16,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 /**
- * Created by zszhang on 2015/11/26.
+ * Created by gentoor on 2015/11/26.
  */
 public class ExcelDataProvider {
     @DataProvider(name = "ExcelDataProvider")

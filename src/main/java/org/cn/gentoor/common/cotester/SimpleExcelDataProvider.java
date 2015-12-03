@@ -14,7 +14,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 
 /**
- * Created by zszhang on 2015/11/18.
+ * Created by gentoor on 2015/11/18.
  */
 public class SimpleExcelDataProvider {
     @DataProvider(name="SimpleExcelDataProvider")

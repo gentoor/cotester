@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by zszhang on 2015/11/24.
+ * Created by gentoor on 2015/11/24.
  */
 public class HeaderAnalyzer {
     public static List<ParaObject> analysisHeader(String[] header, Type[] paraTypes, IExcelDataUtil excelDataUtil) throws NoSuchFieldException {

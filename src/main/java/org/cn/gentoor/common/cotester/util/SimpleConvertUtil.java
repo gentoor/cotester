@@ -4,7 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * Created by zszhang on 2015/11/18.
+ * Created by gentoor on 2015/11/18.
  */
 public class SimpleConvertUtil {
     @SuppressWarnings("unchecked")

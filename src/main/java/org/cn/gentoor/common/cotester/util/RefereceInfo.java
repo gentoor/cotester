@@ -1,7 +1,7 @@
 package org.cn.gentoor.common.cotester.util;
 
 /**
- * Created by zszhang on 2015/11/26.
+ * Created by gentoor on 2015/11/26.
  */
 public class RefereceInfo {
     private String sheetName;

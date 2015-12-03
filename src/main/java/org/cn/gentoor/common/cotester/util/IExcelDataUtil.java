@@ -1,7 +1,7 @@
 package org.cn.gentoor.common.cotester.util;
 
 /**
- * Created by zszhang on 2015/11/21.
+ * Created by gentoor on 2015/11/21.
  */
 public interface IExcelDataUtil {
     /**

@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by zszhang on 2015/11/26.
+ * Created by gentoor on 2015/11/26.
  */
 public class ConvertUtil {
     private static final Pattern pattern = Pattern.compile("^(?<firstRow>\\d+)?(?:-)?(?<lastRow>\\d+)?$");

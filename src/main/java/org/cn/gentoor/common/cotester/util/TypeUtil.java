@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
- * Created by zszhang on 2015/11/27.
+ * Created by gentoor on 2015/11/27.
  */
 public class TypeUtil {
     public static Type getFieldType(Class clazz, String fieldName) throws NoSuchFieldException {
