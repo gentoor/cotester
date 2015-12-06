@@ -1,7 +1,6 @@
 *.class
 
 # Maven compile 
-target/
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
