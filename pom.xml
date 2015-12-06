@@ -36,11 +36,11 @@
     <distributionManagement>
         <repository>
             <id>ossrh</id>
-            <url></url>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
         </repository>
         <snapshotRepository>
             <id>ossrh</id>
-            <url></url>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
     <properties>
@@ -67,7 +67,15 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.5</version>
+                <version>2.9</version>
+                <configuration>
+                    <show>public</show>
+                    <nohelp>true</nohelp>
+                    <aggregate>true</aggregate>
+                    <encoding>${file.encoding}</encoding>
+                    <charset>${file.encoding}</charset>
+                    <docencoding>${file.encoding}</docencoding>
+                </configuration>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
