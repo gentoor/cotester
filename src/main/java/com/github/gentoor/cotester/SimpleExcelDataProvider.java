@@ -43,7 +43,7 @@ public class SimpleExcelDataProvider {
         int paraCnt = method.getParameterCount();
 
         IExcelDataUtil excelDataUtil = new ExcelDataUtil(is);
-        String[][] data = excelDataUtil.getAllData(sheetName);
+        Object[][] data = excelDataUtil.getAllData(sheetName);
         int testCnt = data.length;
         Object[][] result = new Object[testCnt][paraCnt];
 

@@ -43,11 +43,21 @@ public class HeaderAnalyzer {
 
     private static int analysisColumn(List<ParaObject> paras, String colName, Type paraType, int colNum, IExcelDataUtil excelDataUtil) throws NoSuchFieldException {
         Class clazz = TypeUtil.getTypeClass(paraType);
-        if(colName.contains(".") && !TypeUtil.isSimpleClass(clazz) && !TypeUtil.isCollection(clazz) && TypeUtil.isMap(clazz)) {
+        if(TypeUtil.isSimpleClass(clazz)) {
+            addSimpleParaDefineToList(paras, colName, paraType, colNum);
+        } else if(TypeUtil.isCollection(clazz)) {
+            addCollectParaDefineToList(paras, colName, paraType, colNum, excelDataUtil);
+        } else if(TypeUtil.isMap(clazz)) {
+            addMapParaDefineToList(paras, colName, paraType, colNum, excelDataUtil);
+        } else if(clazz.isArray()) {
+            addArrayParaDefineToList(paras, colName, paraType, colNum, excelDataUtil);
+        } else if(colName.contains(".")) {
             return addCombinedObjectToList(paras, colName, paraType, colNum, excelDataUtil);
         } else {
-            return addSingleObjectToList(paras, colName, paraType, colNum, excelDataUtil);
+            // error...
+            System.err.println("ERROR : cannot analy col [" + colName + "]");
         }
+        return 1;
     }
 
     private static void addMapParaDefineToList(List<ParaObject> paras, String colName, Type paraType, int colNum, IExcelDataUtil excelDataUtil) throws NoSuchFieldException {
@@ -57,46 +67,15 @@ public class HeaderAnalyzer {
         String refSheetName = "$" + colName;
         String[] header = excelDataUtil.getHeaderData(refSheetName);
         if(TypeUtil.isSimpleClass(paraObject.getKeyClass())) {
-            addSingleObjectToList(paraObject.getSubParaObjs(), "key", ((ParameterizedType) paraType).getActualTypeArguments()[0], 0, excelDataUtil);
+            addSimpleParaDefineToList(paraObject.getSubParaObjs(), "key", ((ParameterizedType) paraType).getActualTypeArguments()[0], 0);
         } else {
             analysisMapRefereceHeader(paraObject.getSubParaObjs(), header, excelDataUtil, paraObject.getKeyClass(), "key.");
         }
         if(TypeUtil.isSimpleClass(paraObject.getValueClass())) {
-            addSingleObjectToList(paraObject.getSubParaObjs(), "value", ((ParameterizedType)paraType).getActualTypeArguments()[1], header.length-1, excelDataUtil);
+            addSimpleParaDefineToList(paraObject.getSubParaObjs(), "value", ((ParameterizedType)paraType).getActualTypeArguments()[1], header.length-1);
         } else {
             analysisMapRefereceHeader(paraObject.getSubParaObjs(), header, excelDataUtil, paraObject.getValueClass(), "value.");
         }
-    }
-
-    private static int addSingleObjectToList(List<ParaObject> paras, String colName, Type type, int colNum, IExcelDataUtil excelDataUtil) throws NoSuchFieldException {
-        ParaObject paraObject = new ParaObject();
-        paras.add(paraObject);
-        paraObject.setParaName(colName);
-        paraObject.setParaClass(TypeUtil.getTypeClass(type));
-        paraObject.setBeginCol(colNum);
-        paraObject.setEndCol(colNum);
-        if(TypeUtil.isCollection(paraObject.getParaClass())) {
-            paraObject.setValueClass(TypeUtil.getValueClass(type));
-            String refSheetName = "$" + colName;
-            String[] header = excelDataUtil.getHeaderData(refSheetName);
-            analysisRefereceHeader(paraObject.getSubParaObjs(), header, excelDataUtil, paraObject.getValueClass());
-        } else if(TypeUtil.isMap(paraObject.getParaClass())) {
-            paraObject.setValueClass(TypeUtil.getValueClass(type));
-            paraObject.setKeyClass(TypeUtil.getKeyClass(type));
-            String refSheetName = "$" + colName;
-            String[] header = excelDataUtil.getHeaderData(refSheetName);
-            if(TypeUtil.isSimpleClass(paraObject.getKeyClass())) {
-                addSingleObjectToList(paraObject.getSubParaObjs(), "key", ((ParameterizedType) type).getActualTypeArguments()[0], 0, excelDataUtil);
-            } else {
-                analysisMapRefereceHeader(paraObject.getSubParaObjs(), header, excelDataUtil, paraObject.getKeyClass(), "key.");
-            }
-            if(TypeUtil.isSimpleClass(paraObject.getValueClass())) {
-                addSingleObjectToList(paraObject.getSubParaObjs(), "value", ((ParameterizedType)type).getActualTypeArguments()[1], header.length-1, excelDataUtil);
-            } else {
-                analysisMapRefereceHeader(paraObject.getSubParaObjs(), header, excelDataUtil, paraObject.getValueClass(), "value.");
-            }
-        }
-        return 1;
     }
 
     private static void analysisMapRefereceHeader(List<ParaObject> paras, String[] header, IExcelDataUtil excelDataUtil, Class clazz, String prefix) throws NoSuchFieldException {

@@ -13,8 +13,8 @@ import java.util.regex.Pattern;
  * Created by gentoor on 2015/11/26.
  */
 public class ConvertUtil {
-    private static final Pattern pattern = Pattern.compile("^(?<firstRow>\\d+)?(?:-)?(?<lastRow>\\d+)?$");
-    public static Object convert(ParaObject paraObject, String[] rowData, IExcelDataUtil excelDataUtil) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, NoSuchFieldException {
+    private static final Pattern pattern = Pattern.compile("^(?<firstRow>\\d+)?(?:~)?(?<lastRow>\\d+)?$");
+    public static Object convert(ParaObject paraObject, Object[] rowData, IExcelDataUtil excelDataUtil) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, NoSuchFieldException {
         Object result = null;
         Class type = paraObject.getParaClass();
 
@@ -31,14 +31,14 @@ public class ConvertUtil {
         return result;
     }
 
-    private static Object cvt2Map(String[] rowData, ParaObject paraInfo, IExcelDataUtil excelDataUtil) throws IllegalAccessException, InstantiationException, NoSuchMethodException, NoSuchFieldException, InvocationTargetException {
-        String refStr = rowData[paraInfo.getBeginCol()];
+    private static Object cvt2Map(Object[] rowData, ParaObject paraInfo, IExcelDataUtil excelDataUtil) throws IllegalAccessException, InstantiationException, NoSuchMethodException, NoSuchFieldException, InvocationTargetException {
+        String refStr = (String)rowData[paraInfo.getBeginCol()];
         if(null == refStr) return null;
         Class mapClazz = paraInfo.getParaClass();
         Map result = (Map)TypeUtil.createRepresentativeInstance(mapClazz);
 
         RefereceInfo refereceInfo = getRefInfo(refStr, paraInfo.getParaName());
-        String[][] refData = readRefData(refereceInfo, excelDataUtil, paraInfo);
+        Object[][] refData = readRefData(refereceInfo, excelDataUtil, paraInfo);
 
         List<Object> keys = cvt2MapKeys(paraInfo, refData, excelDataUtil);
         List<Object> values = cvt2MapValues(paraInfo, refData, excelDataUtil);
@@ -49,7 +49,7 @@ public class ConvertUtil {
         return result;
     }
 
-    private static List<Object> cvt2MapValues(ParaObject paraInfo, String[][] refDatra, IExcelDataUtil excelDataUtil) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException {
+    private static List<Object> cvt2MapValues(ParaObject paraInfo, Object[][] refDatra, IExcelDataUtil excelDataUtil) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException {
         List<Object> values = new ArrayList();
         Class valueClass = paraInfo.getValueClass();
 
@@ -61,7 +61,7 @@ public class ConvertUtil {
 
         return values;
     }
-    private static List<Object> cvt2MapKeys(ParaObject paraInfo, String[][] refData, IExcelDataUtil excelDataUtil) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, NoSuchFieldException {
+    private static List<Object> cvt2MapKeys(ParaObject paraInfo, Object[][] refData, IExcelDataUtil excelDataUtil) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, NoSuchFieldException {
         List<Object> keys = new ArrayList();
         Class keyClass = paraInfo.getKeyClass();
         if(TypeUtil.isSimpleClass(keyClass)) {
@@ -72,14 +72,14 @@ public class ConvertUtil {
 
         return keys;
     }
-    private static Object cvt2Collect(String[] rowData, ParaObject paraInfo, IExcelDataUtil excelDataUtil) throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException, NoSuchFieldException {
-        String refStr = rowData[paraInfo.getBeginCol()];
+    private static Object cvt2Collect(Object[] rowData, ParaObject paraInfo, IExcelDataUtil excelDataUtil) throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException, NoSuchFieldException {
+        String refStr = (String)rowData[paraInfo.getBeginCol()];
         if(null == refStr) return null;
         Class clazz = paraInfo.getParaClass();
         Collection result = (Collection)TypeUtil.createRepresentativeInstance(clazz);
 
         RefereceInfo refInfo = getRefInfo(refStr, paraInfo.getParaName());
-        String[][] refData = readRefData(refInfo, excelDataUtil, paraInfo);
+        Object[][] refData = readRefData(refInfo, excelDataUtil, paraInfo);
 
         if(TypeUtil.isSimpleClass(paraInfo.getValueClass())) {
             cvt2SimpleCollection(paraInfo.getValueClass(), refData, result, false);
@@ -90,14 +90,14 @@ public class ConvertUtil {
         return result;
     }
 
-    private static void cvt2SimpleCollection(Class valueClass, String[][] refData, Collection result, boolean isLastCol) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    private static void cvt2SimpleCollection(Class valueClass, Object[][] refData, Collection result, boolean isLastCol) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         int col = isLastCol ? refData[0].length -1 : 0;
         for(int i=0; i<refData.length; i++) {
             result.add(SimpleConvertUtil.convert(valueClass, refData[i][col]));
         }
     }
 
-    private static void cvt2CombinedCollection(Class clazz, List<ParaObject> fields, String fieldPrefix, String[][] refData, Collection result, IExcelDataUtil excelDataUtil) throws IllegalAccessException, InstantiationException, NoSuchMethodException, NoSuchFieldException, InvocationTargetException {
+    private static void cvt2CombinedCollection(Class clazz, List<ParaObject> fields, String fieldPrefix, Object[][] refData, Collection result, IExcelDataUtil excelDataUtil) throws IllegalAccessException, InstantiationException, NoSuchMethodException, NoSuchFieldException, InvocationTargetException {
         for(int i=0; i<refData.length; i++) {
             Object o = clazz.newInstance();
             result.add(o);
@@ -113,7 +113,7 @@ public class ConvertUtil {
         }
     }
 
-    private static String[][] readRefData(RefereceInfo refInfo, IExcelDataUtil excelDataUtil, ParaObject para) {
+    private static Object[][] readRefData(RefereceInfo refInfo, IExcelDataUtil excelDataUtil, ParaObject para) {
         int firstRow = refInfo.getFirstRow() == null ? 2 : refInfo.getFirstRow();
         int lastRow = refInfo.getLastRow() == null ? Short.MAX_VALUE : refInfo.getLastRow();
         List<ParaObject> refParas = para.getSubParaObjs();
@@ -138,7 +138,7 @@ public class ConvertUtil {
         return refInfo;
     }
 
-    private static Object convert2CombinedObject(Class clazz, String[] rowData, ParaObject paraInfo, IExcelDataUtil excelDataUtil)
+    private static Object convert2CombinedObject(Class clazz, Object[] rowData, ParaObject paraInfo, IExcelDataUtil excelDataUtil)
             throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException, NoSuchFieldException {
         Object result = clazz.newInstance();
         for(ParaObject field : paraInfo.getSubParaObjs()) {

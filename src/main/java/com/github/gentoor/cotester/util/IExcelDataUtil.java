@@ -9,11 +9,11 @@ public interface IExcelDataUtil {
      * @param sheetName
      * @return
      */
-    String[][] getAllData(String sheetName);
+    Object[][] getAllData(String sheetName);
 
     String[] getHeaderData(String sheetName);
 
-    String[][] getBodyData(String sheetName);
+    Object[][] getBodyData(String sheetName);
 
     /**
      * 获取指定范围的行数据，行号从1开始
@@ -22,5 +22,5 @@ public interface IExcelDataUtil {
      * @param lastRow 1-based
      * @return
      */
-    String[][] getData(String sheetName, int beginRow, int lastRow, int firstCol, int lastCol);
+    Object[][] getData(String sheetName, int beginRow, int lastRow, int firstCol, int lastCol);
 }

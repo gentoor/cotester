@@ -49,7 +49,7 @@ public class ExcelDataProvider {
         String[] header = excelDataUtil.getHeaderData(sheetName);
 
         List<ParaObject> paraInfos = HeaderAnalyzer.analysisHeader(header, paraTypes, excelDataUtil);
-        String[][] data = excelDataUtil.getBodyData(sheetName);
+        Object[][] data = excelDataUtil.getBodyData(sheetName);
         Object[][] result = new Object[data.length][paraInfos.size()];
 
         for(int i=0; i<data.length; i++) {

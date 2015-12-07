@@ -20,7 +20,7 @@ test伴侣 --- 数据驱动测试<br>
 2.2） 参数为基础数据类型、常用简单类型，首行按顺序写上参数名称， 下面数据部分直接书写<br>
 2.3） 参数为自定义类时，对应参数及其关心的字段分列填写在首行中如 user.id, user.name， 数据部分直接书写<br>
 2.4） 参数为Collection及Map时，首行写参数名；此时需要创建引用sheet页， 如上例就是创建名称为$expected的sheet页；<br>
-      在本列下面的数据中要写明数据范围为$expected页中的哪些行， 支持格式为1-3, 1-, -3, 2等<br>
+      在本列下面的数据中要写明数据范围为$expected页中的哪些行， 支持格式为1~3, 1~, ~3, 2等<br>
 2.5） 如果将excel放在testcase同目录，需要注意在maven下面增加以下配置<br>
     &lt;build&gt;<br>
         &lt;testResources&gt;<br>
@@ -33,4 +33,4 @@ test伴侣 --- 数据驱动测试<br>
             &lt;/testResource&gt;<br>
         &lt;/testResources&gt;<br>
       &lt;/build&gt;<br>
-3. 数据填写到excel中后，就可以运行testc了<br>
+3. 数据填写到excel中后，就可以运行testcase了<br>

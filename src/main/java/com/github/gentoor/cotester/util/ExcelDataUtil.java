@@ -27,7 +27,7 @@ public class ExcelDataUtil implements IExcelDataUtil {
      * @param sheetName
      * @return
      */
-    public String[][] getAllData(String sheetName) {
+    public Object[][] getAllData(String sheetName) {
         Sheet sheet = workbook.getSheet(sheetName);
         Row row;
         Cell cell;
@@ -57,14 +57,15 @@ public class ExcelDataUtil implements IExcelDataUtil {
 
         for(int i=0; firstCol < lastCol; i++, firstCol++) {
             Cell cell = row.getCell(firstCol);
-            data[i] = getCellValue(cell);
+            Object cv = getCellValue(cell);
+            data[i] = null == cv ? null : (cv instanceof String ? (String)cv : cv.toString());
         }
 
         return data;
     }
 
     @Override
-    public String[][] getBodyData(String sheetName) {
+    public Object[][] getBodyData(String sheetName) {
         Sheet sheet = workbook.getSheet(sheetName);
         Row row;
         Cell cell;
@@ -78,10 +79,10 @@ public class ExcelDataUtil implements IExcelDataUtil {
         return this.getData(sheet, firstRow, lastRow, firstCol, lastCol);
     }
 
-    private String[][] getData(Sheet sheet,  int beginRow, int lastRow, int firstCol, int lastCol) {
+    private Object[][] getData(Sheet sheet,  int beginRow, int lastRow, int firstCol, int lastCol) {
         if(beginRow>lastRow || null == sheet || firstCol > lastCol)    return null;
         lastRow = sheet.getLastRowNum() >= lastRow ? lastRow : sheet.getLastRowNum();
-        String[][] data = new String[lastRow-beginRow+1][lastCol-firstCol];
+        Object[][] data = new Object[lastRow-beginRow+1][lastCol-firstCol];
         Row row = null;
         Cell cell = null;
         for(int i=0; beginRow <= lastRow; i++, beginRow++) {
@@ -104,12 +105,12 @@ public class ExcelDataUtil implements IExcelDataUtil {
      * @return
      */
     @Override
-    public String[][] getData(String sheetName, int beginRow, int lastRow, int firstCol, int lastCol) {
+    public Object[][] getData(String sheetName, int beginRow, int lastRow, int firstCol, int lastCol) {
         Sheet sheet = workbook.getSheet(sheetName);
         return getData(sheet, beginRow-1, lastRow-1, firstCol, lastCol);
     }
 
-    private static String getCellValue(Cell cell) {
+    private static Object getCellValue(Cell cell) {
         if(null == cell)    return null;
         Object v = null;
         int type = cell.getCellType() == Cell.CELL_TYPE_FORMULA ?  cell.getCachedFormulaResultType() : cell.getCellType();
@@ -130,7 +131,7 @@ public class ExcelDataUtil implements IExcelDataUtil {
                 // do nothing.
                 //logger.debug("cell " + cell.getColumnIndex() + "convert fail...");
         }
-        return v.toString();
+        return v;
     }
 
 }

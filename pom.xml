@@ -6,7 +6,7 @@
 
     <groupId>com.github.gentoor</groupId>
     <artifactId>cotester</artifactId>
-    <version>1.0-RELEASE</version>
+    <version>1.1-SNAPSHOT</version>
 
     <name>${project.groupId}:${project.artifactId}</name>
     <description>Excel Drive Testing, GoGoGo!</description>
@@ -31,7 +31,7 @@
         <connection>scm:git:https://github.com/gentoor/cotester.git</connection>
         <developerConnection>scm:git:https://github.com/gentoor/cotester.git</developerConnection>
         <url>https://github.com/gentoor/cotester</url>
-        <tag>1.0-RELEASE</tag>
+        <tag>${version}</tag>
     </scm>
     <distributionManagement>
         <repository>
