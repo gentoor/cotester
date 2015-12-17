@@ -22,14 +22,28 @@ public class HeaderAnalyzer {
     }
 
     private static void addArrayParaDefineToList(List<ParaObject> paras, String colName, Type paraType, int colNum, IExcelDataUtil excelDataUtil) throws NoSuchFieldException {
-        // TODO....
+        ParaObject paraObject = addSimpleParaDefineToList(paras, colName, paraType, colNum);
+        Class componetType = paraObject.getParaClass().getComponentType();
+        paraObject.setValueClass(componetType);
+        String refSheetName = "$" + colName;
+        if(componetType.isArray()) {
+            addArrayParaDefineToList(paraObject.getSubParaObjs(), refSheetName, componetType, 0, excelDataUtil);
+        } else {
+            String[] header = excelDataUtil.getHeaderData(refSheetName);
+            analysisRefereceHeader(paraObject.getSubParaObjs(), header, excelDataUtil, componetType);
+        }
     }
     private static void addCollectParaDefineToList(List<ParaObject> paras, String colName, Type paraType, int colNum, IExcelDataUtil excelDataUtil) throws NoSuchFieldException {
         ParaObject paraObject = addSimpleParaDefineToList(paras, colName, paraType, colNum);
-        paraObject.setValueClass(TypeUtil.getValueClass(paraType));
+        Class valueClass = TypeUtil.getValueClass(paraType);
+        paraObject.setValueClass(valueClass);
         String refSheetName = "$" + colName;
         String[] header = excelDataUtil.getHeaderData(refSheetName);
-        analysisRefereceHeader(paraObject.getSubParaObjs(), header, excelDataUtil, paraObject.getValueClass());
+        if(TypeUtil.isSimpleClass(valueClass)) {
+            addSimpleParaDefineToList(paraObject.getSubParaObjs(), "value", valueClass, 0);
+        } else {
+            analysisRefereceHeader(paraObject.getSubParaObjs(), header, excelDataUtil, valueClass);
+        }
     }
     private static ParaObject addSimpleParaDefineToList(List<ParaObject> paras, String colName, Type paraType, int colNum) {
         ParaObject paraObject = new ParaObject();
